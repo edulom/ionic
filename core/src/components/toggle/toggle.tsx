@@ -18,6 +18,7 @@ export class Toggle implements ComponentInterface {
   private inputId = `ion-tg-${toggleIds++}`;
   private pivotX = 0;
   private gesture?: Gesture;
+  private buttonEl?: HTMLElement;
 
   @Element() el!: HTMLElement;
 
@@ -133,6 +134,7 @@ export class Toggle implements ComponentInterface {
 
     // touch-action does not work in iOS
     detail.event.preventDefault();
+    this.setFocus();
     return true;
   }
 
@@ -157,6 +159,12 @@ export class Toggle implements ComponentInterface {
 
   private getValue() {
     return this.value || '';
+  }
+
+  private setFocus() {
+    if (this.buttonEl) {
+      this.buttonEl.focus();
+    }
   }
 
   private onFocus = () => {
@@ -205,6 +213,7 @@ export class Toggle implements ComponentInterface {
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         disabled={this.disabled}
+        ref={el => this.buttonEl = el}
       >
       </button>
     ];
